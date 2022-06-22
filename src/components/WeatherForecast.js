@@ -1,62 +1,98 @@
 import { useEffect, useState } from "react";
 import axios from "../helpers/axios";
+import transformImageUrl from "../helpers/transformImageUrl";
 import { showMonth, showDay } from "../helpers/showDate";
 import * as React from "react";
 
 const WeatherForecast = () => {
-  const [daysList, setDaysList] = useState([]);
-  const [selectedDay, setSelectedDay] = useState({});
+  const [location, setLocation] = useState({});
+  const [current, setCurrent] = useState({});
+  const [forecast, setForecast] = useState([]);
   const [isLoading, setLoading] = useState(true);
   const [isActive, setActive] = useState("");
+  const [position, setPosition] = useState("iata:ifo");
 
-  const handleClickDay = (selectedDay) => () => {
-    setSelectedDay(selectedDay);
-    setActive(selectedDay.id);
-  };
+  // const handleClickDay = (selectedDay) => () => {
+  //   setSelectedDay(selectedDay);
+  //   setActive(selectedDay.id);
+  // };
+
+  navigator.geolocation.getCurrentPosition(
+    function(position)
+    {
+      setPosition(`${position.coords.latitude}, ${position.coords.longitude}`);
+    },
+    function(error)
+    {
+      if(error.PERMISSION_DENIED)
+      {
+        console.log(error.PERMISSION_DENIED);
+      }
+  });
 
   useEffect(() => {
     setLoading(true);
-    axios.get("/rtx/api/forecast").then((objectData) => {
-      setDaysList(objectData.data.slice(0, 7));
-      setSelectedDay(objectData.data.slice(0, 1)[0]);
-      setLoading(false);
-    });
-  }, []);
+    axios
+      .get("/forecast.json", {
+        params: {
+          key: "cb4978cabce04f54bbc125524221406",
+          q: position,
+          days: 1,
+          aqi: "no",
+          alerts: "no",
+        },
+      })
+      .then((objectData) => {
+        setLocation(objectData.location);
+        setCurrent(objectData.current);
+        setForecast(objectData.forecast.forecastday);
+        setLoading(false);
+      });
+  }, [position]);
+  // console.log("location", location);
+  // console.log("current", current);
+  // console.log("forecast", forecast);
 
+
+  
   return (
     <>
-      <h1>Weather forecast</h1>
+      <h1>Weather forecast using geolocation</h1>
       {isLoading ? (
         <p className="large-text-temp">LOADING...</p>
       ) : (
         <>
           <div className="selected-day">
-            <div className="box-selected-day">
-              <div className={`${selectedDay.type}-selected`}>
-                <p className="large-text">{showDay(selectedDay.day)}</p>
-                <p className="large-text">
-                  {new Date(selectedDay.day).getDate()}{" "}
-                  {showMonth(selectedDay.day)}
-                </p>
-              </div>
-            </div>
-            <div>
-              <p className="extra-large-text" title="Температура воздуха">
-                {selectedDay.temperature}
+            <div className="temp-selected-day">
+              <span className="extra-large-text" title="Температура воздуха">
+                {current.temp_c > 0
+                  ? `+${current.temp_c}`
+                  : `${current.temp_c}`}
                 {"\u00b0"}
+              </span>
+              <img
+                src={transformImageUrl(current.condition.icon)}
+                alt={current.condition.text}
+                title={current.condition.text}
+                width="128"
+                height="128"
+              />
+            </div>
+
+            <div className="box-selected-day">
+              <p className="large-text">
+                {showDay(current.last_updated_epoch * 1000)}
               </p>
-              <span className="large-text humidity" title="Влажность">
-                {selectedDay.humidity}
-              </span>
-              <span
-                className="large-text rain_probability"
-                title="Вероятность дождя"
-              >
-                {selectedDay.rain_probability}
-              </span>
+              <p className="large-text">{showMonth(current.last_updated_epoch * 1000)}{" "}
+                {new Date(current.last_updated_epoch * 1000).getDate()}
+              </p>
+              <p className="large-text" title={location.country}>
+                {location.name}
+              </p>
+              <p className="large-text">{location.country}</p>
             </div>
           </div>
-          <ul className="list">
+          {/* <ul className="list">
             {daysList.map((element) => (
               <li key={element.id} onClick={handleClickDay(element)}>
                 <div
@@ -75,7 +111,7 @@ const WeatherForecast = () => {
                 </div>
               </li>
             ))}
-          </ul>
+          </ul> */}
         </>
       )}
     </>

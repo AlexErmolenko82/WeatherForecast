@@ -2,29 +2,29 @@ export const showMonth = (timestamp) => {
   const date = new Date(timestamp).getMonth();
   switch (date) {
     case 0:
-      return "Января";
+      return "January";
     case 1:
-      return "Февраля";
+      return "February";
     case 2:
-      return "Марта";
+      return "March";
     case 3:
-      return "Апреля";
+      return "April";
     case 4:
-      return "Мая";
+      return "May";
     case 5:
-      return "Июня";
+      return "June";
     case 6:
-      return "Июля";
+      return "July";
     case 7:
-      return "Августа";
+      return "August";
     case 8:
-      return "Сентября";
+      return "September";
     case 9:
-      return "Октября";
+      return "October";
     case 10:
-      return "Ноября";
+      return "November";
     case 11:
-      return "Декабря";
+      return "December";
   }
 };
 
@@ -32,18 +32,18 @@ export const showDay = (timestamp) => {
   const date = new Date(timestamp).getDay();
   switch (date) {
     case 0:
-      return "Воскресенье";
+      return "sunday";
     case 1:
-      return "Понедельник";
+      return "monday";
     case 2:
-      return "Вторник";
+      return "tuesday";
     case 3:
-      return "Среда";
+      return "wednesday";
     case 4:
-      return "Четверг";
+      return "thursday";
     case 5:
-      return "Пятница";
+      return "friday";
     case 6:
-      return "Суббота";
+      return "saturday";
   }
 };

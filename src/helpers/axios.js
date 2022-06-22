@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://lab.lectrum.io",
+  baseURL: "http://api.weatherapi.com/v1",
 });
 
 instance.interceptors.response.use(function (response) {

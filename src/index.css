@@ -1,54 +1,56 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400&display=swap');
 
-body {
-background-image: url("./images/bg-image.png");
-    background-size: auto;
-}
-
 .container {
     margin: auto;
     width: 960px;
     text-align: center;
     font-family: "Roboto", sans-serif;
-    color: white;
+    color: black;
     cursor: default;
 }
 
-.selected-day{
-    width: 400px;
-    height: 250px;
+.selected-day {
+    width: 600px;
+    height: 280px;
     margin: auto;
     display: flex;
-    justify-content: space-between;
+
 }
 
-.box-selected-day{
+.box-selected-day {
+    /* display: block;
+    flex-direction: column; */
+}
+
+.temp-selected-day {
     display: flex;
     flex-direction: column;
-    width: 200px;
-
+    align-items: flex-end;
+    width: 300px;
 }
 
 .list {
-    list-style-type: none;    
-    display: flex; 
+    list-style-type: none;
+    display: flex;
     justify-content: center;
     padding: 0;
 }
+
 .list-item {
     cursor: pointer;
-    background-color:  #a7599b;
+    background-color: #a7599b;
     width: 130px;
     height: 200px;
 
     padding: 1px;
 }
-.list-item:hover{
-    background-color:  #d69ccd;
+
+.list-item:hover {
+    background-color: #d69ccd;
 }
 
-.active{
-    background-color:  #d69ccd;
+.active {
+    background-color: #d69ccd;
 }
 
 .cloudy:after {
@@ -155,19 +157,19 @@ background-image: url("./images/bg-image.png");
 
 
 .large-text {
-    text-align: right;
+    text-align: left;
     margin: 8px 0;
-    font-size: 30px;
+    font-size: 2rem;
     font-weight: 100;
 }
 
 .extra-large-text {
-    font-size: 120px;
+    font-size: 4rem;
     font-weight: 200;
     margin: 0;
 }
 
-.large-text-temp{
+.large-text-temp {
     margin-top: 70px;
     font-size: 30px;
     font-weight: 100;
